@@ -72,6 +72,18 @@ stages:
         npm audit --audit-level=critical
       displayName: 'Run NPM Audit'
       workingDirectory: '$(Build.SourcesDirectory)'
+    
+
+    - task: SnykSecurityScan@1
+      displayName: 'Snyk Open Source Scan (Dependencies)'
+      inputs:
+        serviceConnectionEndpoint: 'SnykConnection'
+        testType: 'app'
+        targetFile: 'package.json'
+        severityThreshold: 'high'
+        monitorWhen: 'always'
+        failOnIssues: true
+       
 
     # ────── OWASP Dependency Check ──────
     # - bash: 'mkdir -p OWASP-security-reports'
@@ -360,7 +372,7 @@ stages:
 
 
 - stage: DAST_Scan
-  displayName: 'Dynamic Application Security Testing (DAST)' 
+  displayName: 'Dynamic Application Security Testing (DAST)
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
   
   jobs:
