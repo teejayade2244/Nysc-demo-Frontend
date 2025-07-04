@@ -80,7 +80,7 @@ stages:
         serviceConnectionEndpoint: 'SnykConnection'
         testType: 'app'
         targetFile: 'package.json'
-        severityThreshold: 'critical'
+        severityThreshold: 'high'
         monitorWhen: 'always'
         failOnIssues: true
        
@@ -372,9 +372,8 @@ stages:
 
 
 - stage: DAST_Scan
-  displayName: 'Dynamic Application Security Testing (DAST)
+  displayName: 'Dynamic Application Security Testing (DAST)'
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
-  
   jobs:
   - job: OWASP_ZAP_Scan
     displayName: 'OWASP ZAP Full Scan'
